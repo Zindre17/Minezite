@@ -10,24 +10,24 @@
 <div class="status">
     <h2>Server Status</h2>
     <p>
-     Status: @string.Format("{0}",Model.Payload == null ? "offline" : "online")
-    <br>
-     Active players right now: @string.Format("{0}", Model.Payload == null ?
-             "n/a" :
-             string.Format("{0}/{1}", Model.Payload.Players.Online, Model.Payload.Players.Max))
-    <br>
+        Status: @string.Format("{0}", Model.Payload == null ? "offline" : "online")
+        <br>
+        Active players right now: @string.Format("{0}", Model.Payload == null ?
+"n/a" :
+string.Format("{0}/{1}", Model.Payload.Players.Online, Model.Payload.Players.Max))
+        <br>
     </p>
     @if (Model.Payload != null)
     {
-    <h2>Logged in:</h2>
-    <ul>
-        @foreach (var player in Model.Payload.Players.Sample)
-        {
-            <li> @player.Name</li>
-        }
-    </ul>
+        <h2>Logged in:</h2>
+        <ul>
+            @foreach (var player in Model.Payload.Players.Sample)
+            {
+                <li> @player.Name</li>
+            }
+        </ul>
     }
-    
+
 </div>
 <div class="faq">
     <h2>FAQ:</h2>
@@ -36,3 +36,5 @@
     <h3>How do i join?</h3>
     <p>Just set the ip to: minez.northeurope.cloudapp.azure.com</p>
 </div>
+<script src="~/lib/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>

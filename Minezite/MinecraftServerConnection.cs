@@ -11,6 +11,11 @@ using System.Threading.Tasks;
 
 namespace Minezite
 {
+
+    public interface IDataUpdate
+    {
+        void DataChanged(PingPayload payload);
+    }
     public class MinecraftServerConnection:IHostedService, IDisposable
     {
         private List<byte> _buffer;
@@ -35,6 +40,13 @@ namespace Minezite
                 }
                 return instance;
             }
+        }
+        
+
+        private IDataUpdate listener = null;
+        public void SetListener(IDataUpdate listener)
+        {
+            this.listener = listener;
         }
         
         public Task StartAsync(CancellationToken cancellationToken)
@@ -77,6 +89,8 @@ namespace Minezite
             SendStatusRequest();
             ReadStatusResponse();
             client.Close();
+            if (listener != null) 
+                listener.DataChanged(latestPing);
         }
 
         public bool IsConnected()

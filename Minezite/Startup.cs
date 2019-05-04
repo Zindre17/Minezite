@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Minezite.Hubs;
 
 namespace Minezite {
     public class Startup {
@@ -31,6 +32,7 @@ namespace Minezite {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddHostedService<MinecraftServerConnection>();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +48,10 @@ namespace Minezite {
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ServerHub>("/Index");
+            });
 
             app.UseMvc();
         }
