@@ -39,11 +39,16 @@ namespace Minezite
         
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _timer = new Timer(Fetch, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
+            Console.WriteLine("starting background service");
+            if (instance == null)
+                instance = new MinecraftServerConnection();
+            _timer = new Timer(ScheduledFunction, null, TimeSpan.Zero, TimeSpan.FromSeconds(20));
+            return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
+            Console.WriteLine("stopping background service");
             _timer?.Change(Timeout.Infinite, 0);
             return Task.CompletedTask;
         }
@@ -53,20 +58,19 @@ namespace Minezite
             _timer?.Dispose();
         }
 
-        private MinecraftServerConnection()
+        public MinecraftServerConnection()
         {
-            client = new TcpClient();
+            if (instance != null) return;
+            instance = this;
             _buffer = new List<byte>();
         }
-
-        private async Task Start()
+        private void ScheduledFunction(object state)
         {
-            await Fetch();
-            Thread.Sleep(1000 * 30);
-            await Start();
+            Console.WriteLine("Timed background process is running");
+            Fetch();
         }
 
-        private async Task Fetch(object state)
+        private async Task Fetch()
         {
             await Connect();
             SendHandShake();
@@ -87,6 +91,9 @@ namespace Minezite
 
         private async Task Connect()
         {
+            client = new TcpClient();
+            _buffer.Clear();
+            _offset = 0;
             await client.ConnectAsync(server, port);
             _stream = client.GetStream();
         }
