@@ -50,7 +50,7 @@ namespace Minezite {
             app.UseCookiePolicy();
             app.UseSignalR(routes =>
             {
-                routes.MapHub<ServerHub>("/Index");
+                routes.MapHub<ServerHub>("/serverHub");
             });
 
             app.UseMvc();

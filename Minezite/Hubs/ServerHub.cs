@@ -8,9 +8,10 @@ namespace Minezite.Hubs
 {
     public class ServerHub : Hub
     {
-        public async Task UpdateServerStatus(PingPayload payload)
+        public async Task UpdateServerStatus()
         {
-            await Clients.All.SendAsync("ReceivePayload", payload);
+            var payload = MinecraftServerConnection.Instance.GetLatest();
+            await Clients.All.SendAsync("dataChanged", payload);
         }
     }
 }

@@ -10,31 +10,23 @@
 <div class="status">
     <h2>Server Status</h2>
     <p>
-        Status: @string.Format("{0}", Model.Payload == null ? "offline" : "online")
+        Status: <span id="status"></span>
         <br>
-        Active players right now: @string.Format("{0}", Model.Payload == null ?
-"n/a" :
-string.Format("{0}/{1}", Model.Payload.Players.Online, Model.Payload.Players.Max))
+        Active players right now: 
+        <span id="playerCount"></span>
         <br>
     </p>
-    @if (Model.Payload != null)
-    {
-        <h2>Logged in:</h2>
-        <ul>
-            @foreach (var player in Model.Payload.Players.Sample)
-            {
-                <li> @player.Name</li>
-            }
-        </ul>
-    }
+    <h2 id="loggedIn">Logged in:</h2>
+    <ul id="players">
+    </ul>
 
 </div>
 <div class="faq">
     <h2>FAQ:</h2>
     <h3>Who can join?</h3>
-    <p>Anyone can join as long as the server is not crowded. If the servers experience a high load they will probably upgraded handle more players</p>
+    <p>Anyone can join as long as the server is not crowded. If the servers experience a high load they will probably be upgraded to handle more players</p>
     <h3>How do i join?</h3>
     <p>Just set the ip to: minez.northeurope.cloudapp.azure.com</p>
 </div>
 <script src="~/lib/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/chat.js"></script>
+<script src="~/js/server.js"></script>
