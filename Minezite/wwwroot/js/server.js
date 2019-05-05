@@ -21,7 +21,7 @@ connection.on("dataChanged", function (payload) {
         if (online > 0) {
             loggedIn.hidden = false;
             for (var i = 0; i < online; i++) {
-                list += "<li>" + payload.players.sample[i].name + "<\li>";
+                list += "<li>" + payload.players.sample[i].name + "</li>";
             }
         } else {
             loggedIn.hidden = true;
